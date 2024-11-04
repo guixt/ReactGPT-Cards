@@ -1,0 +1,403 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  max-height:95vh;
+ 
+}
+
+
+.reset-button{
+  background-color: #50c241;
+  color: white;
+  padding: 4px 0px; 
+  border:#004494;
+  border-radius: 7px;
+  /* Etwas kleiner als 8px */
+  width: 70px;
+  height:40px;
+  font-size: 12px;
+  /* Etwas kleiner als 1em */
+  box-sizing: border-box;
+  text-align: center;
+  position: absolute; /* Setzt die Positionierung auf absolut */
+  top: 10px; /* Abstand von oben */
+  right: 10px; /* Abstand von rechts */
+  
+}
+
+.card-scrollable-text {
+  background-color: white;
+  border-left: 2px solid #007bff;
+  margin-bottom: 8px;
+  padding-left:5px;
+  padding-right:2px;
+  margin-right:8px;
+  max-height: 100px;
+  color: #333;
+  font-size: 11px;
+  line-height: 1.2;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: overlay;
+  position:absolute;
+  bottom:0px;
+}
+
+/* Scrollbar-Styling */
+.card-scrollable-text::-webkit-scrollbar {
+  width: 8px; /* Breite des Scrollbars */
+}
+
+.card-scrollable-text::-webkit-scrollbar-thumb {
+  background-color: #007bff; /* Farbe des Scrollbalkens */
+  border-radius: 10px; /* Abrundung der Ecken des Scrollbalkens */
+}
+
+.card-scrollable-text::-webkit-scrollbar-track {
+  background-color: #f4f4f9; /* Hintergrundfarbe der Scroll-Leiste */
+}
+
+/* Optionale Anpassungen für andere Browser */
+.card-scrollable-text {
+  scrollbar-width: thin; /* Schmaler Scrollbalken für Firefox */
+  scrollbar-color: #007bff #f4f4f9; /* Scrollbalken und Hintergrundfarbe für Firefox */
+}
+
+
+
+
+.cards-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height:59%;
+  max-width:90vw;
+}
+
+
+/* Scrollbar-Styling */
+::-webkit-scrollbar {
+  width: 6px; /* Breite des Scrollbars */
+ 
+ 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9cb8d6; /* Farbe des Scrollbalkens */
+  
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f9f4f4; /* Hintergrundfarbe der Scroll-Leiste */
+}
+
+
+
+
+
+.cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  overflow-y: auto;
+}
+
+.card {
+  width: 255px;
+  height: 475px;
+  perspective: 1000px;
+  margin: 0 13px 9px 0;
+  /* Angepasst für das neue Layout */
+
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 17px;
+  /* Etwas kleiner als 20px */
+  box-shadow: 0 8px 16px rgba(27, 160, 49, 0.1);
+  /* Angepasst zur neuen Größe */
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.card-front {
+  background-color: #fff;
+}
+
+.card-back {
+  background-color: #f9f9f9;
+  transform: rotateY(180deg);
+}
+
+.card-header {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  cursor: grab;
+}
+
+.card-header .card-headerText {
+  position: relative;
+  top: 9px;
+  /* Etwas angepasst */
+  display: inline-block;
+  font-size: 12px;
+  /* Etwas kleiner als 13px */
+  color: #665f5f;
+  margin: 0 auto;
+}
+
+.card-header img {
+  width: 100%;
+  height: 180px;
+  border-top-left-radius: 17px;
+  /* Angepasst zur neuen Größe */
+  border-top-right-radius: 17px;
+  /* Angepasst zur neuen Größe */
+  object-fit: cover;
+  margin-bottom: 9px;
+  /* Etwas angepasst */
+
+
+}
+
+.rotate-icon {
+  position: absolute;
+  top: 9px;
+  /* Etwas angepasst */
+  right: 9px;
+  /* Etwas angepasst */
+  max-width: 20px;
+  /* Etwas kleiner als 24px */
+  max-height: 20px;
+  /* Etwas kleiner als 24px */
+  cursor: pointer;
+}
+
+.card-body {
+  padding: 0 16px;
+  /* Etwas kleiner als 20px */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card-title {
+    font-size: 1.1em;
+  /* Etwas kleiner als 1.4em */
+  margin-bottom: 9px;
+  /* Etwas kleiner als 10px */
+  font-weight: 600;
+  color: #3a4d66;
+  text-align: center;
+  min-height: 60px;
+  /* Etwas kleiner als 80px */
+}
+
+.card-back .card-title {
+  max-width: 204px;
+  /* Etwas kleiner als 240px */
+  
+  font-size: 13px;
+  /* Etwas kleiner als 15px */
+  margin-bottom: 10px;
+  /* Etwas kleiner als 12px */
+  margin-top: 10px;
+  /* Etwas kleiner als 12px */
+  font-weight: 600;
+  color: #3a4d66;
+  text-align: center;
+}
+
+.card-label {
+  
+  font-size: 12px;
+  /* Etwas kleiner als 14px */
+  margin-bottom: 4px;
+  /* Unverändert */
+  font-weight: 400;
+  color: #3a4d66;
+}
+
+.card-input {
+  width: 100%;
+  padding: 10px;
+  /* Etwas kleiner als 12px */
+  margin: 7px 0;
+  /* Etwas kleiner als 8px */
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  /* Etwas kleiner als 8px */
+  font-size: 0.95em;
+  /* Etwas kleiner als 1em */
+  font-family: "Helvetica", sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+.card-range-value {
+  font-size: 10px;
+  /* Etwas kleiner als 12px */  
+}
+
+.card-back .card-input {
+  width: 100%;
+  padding: 5px;
+  /* Etwas kleiner als 6px */
+  margin: 4px 0;
+  /* Etwas kleiner als 4px */
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  /* Etwas kleiner als 8px */
+  font-size: 11px;
+  /* Etwas kleiner als 12px */  
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.card-button {
+  background-color: #0056b3;
+  color: white;
+  padding: 9px 17px;
+  /* Etwas kleiner als 10px 20px */
+  margin-top: 7px;
+  /* Etwas kleiner als 8px */
+  border: none;
+  border-radius: 7px;
+  /* Etwas kleiner als 8px */
+  width: 100%;  
+  font-size: 0.95em;
+  /* Etwas kleiner als 1em */
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+}
+
+.card-button:hover {
+  background-color: #004494;
+}
+
+.card-footer {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  /* Festlegt, dass das gesamte .card-footer nach rechts ausgerichtet ist */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 15px);
+  /* Breite so angepasst, dass rechts und links Platz bleibt */
+  padding-left: 15px;
+  box-sizing: border-box;
+}
+
+.card-footer .text-image {
+  font-size: 15px;
+  /* Textgröße */
+  font-weight: 600;
+  color: #0056b3;
+  width: auto;
+
+}
+
+.card-footer img {
+  width: 34px;
+  /* Größe des Logos */
+  margin-left: 10px;
+  /* Abstand zwischen Text und Logo */
+}
+
+.response-box {
+
+  /* Berechnet die verbleibende Höhe basierend auf der Kartenhöhe */
+  background: linear-gradient(135deg, #ffffff, #f0f4f8);
+  border: 1px solid #d1d9e6;
+  border-radius: 17px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  font-size: 14px;
+  text-align: left;
+  height:39%;
+  max-width:70vw;
+
+}
+
+
+.response-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+.response-box .response-content {
+  font-size: 16px;
+  /* Gleiche Textgröße wie in den Karten */
+  color: #333;
+  /* Passende Textfarbe */
+  line-height: 1.5;
+  /* Angenehme Zeilenhöhe */
+}
+
+
+/* Stil nur für den Slider-Input */
+.card-slider {
+  -webkit-appearance: none;
+  /* Entfernt das Standard-Styling */
+  appearance: none;
+  width: 100%;
+  height: 6.8px;
+  /* Etwas kleiner als 8px */
+  border-radius: 4px;
+  /* Etwas kleiner als 5px */
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity .2s;
+}
+
+/* Stil für den Thumb des Sliders */
+.card-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 21px;
+  /* Etwas kleiner als 25px */
+  height: 21px;
+  /* Etwas kleiner als 25px */
+  border-radius: 50%;
+  background: #26c0d4;
+  cursor: pointer;
+  position: relative;
+}
