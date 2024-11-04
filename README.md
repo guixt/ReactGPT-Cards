@@ -2,6 +2,7 @@
 
 An interactive React application demonstrating the integration of **ChatGPT-powered conversations** and **image generation**, allowing users to create dynamic cards, engage in conversations, and input data into structured forms. This project serves as an example of how to leverage **React**, **OpenAI’s ChatGPT API**, and **image generation APIs** to create an engaging, interactive UI experience.
 
+![Cards](cards_1.gif)
 
 
 ## Features
