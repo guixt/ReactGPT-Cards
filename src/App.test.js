@@ -1,8 +1,6 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { createPlaceholderImage } from './chatgptfunctions';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('createPlaceholderImage returns a string', () => {
+  const result = createPlaceholderImage();
+  expect(typeof result).toBe('string');
 });
