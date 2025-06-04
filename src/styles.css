@@ -25,7 +25,23 @@
   position: absolute; /* Setzt die Positionierung auf absolut */
   top: 10px; /* Abstand von oben */
   right: 10px; /* Abstand von rechts */
-  
+
+}
+
+.key-button{
+  background-color: #007bff;
+  color: white;
+  padding: 4px 0px;
+  border:#004494;
+  border-radius: 7px;
+  width: 110px;
+  height:40px;
+  font-size: 12px;
+  box-sizing: border-box;
+  text-align: center;
+  position: absolute;
+  top: 10px;
+  right: 90px;
 }
 
 .card-scrollable-text {
@@ -400,4 +416,38 @@
   background: #26c0d4;
   cursor: pointer;
   position: relative;
+}
+
+.key-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.key-dialog {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.key-dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.key-input {
+  width: 100%;
+  padding: 4px;
+  font-size: 12px;
 }

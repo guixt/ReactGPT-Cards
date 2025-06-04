@@ -7,7 +7,7 @@ import card3 from './images/card_3.webp';
 import card4 from './images/card_4.webp';
 import card5 from './images/card_5.webp';
 
-import { generateImage, generater_flux_image, getPixabayImageAsBase64 } from './openaiservice';
+import { generateImage, generater_flux_image, getPixabayImageAsBase64, updateApiKeys, getOpenAIKey, getPixabayKey, getFalKey } from './openaiservice';
 
 export const add_card = (card, setCardData, setCardCount) => {
   let totalCards; // Deklariere totalCards hier
@@ -123,10 +123,24 @@ export default function App() {
   const [messages, setMessages] = useState([]); // Messages auf App-Ebene
   const [cardData, setCardData] = useState(initialCardData);
   const [cardCount, setCardCount] = useState(initialCardData.length - 1); // State for card count
+  const [showKeyDialog, setShowKeyDialog] = useState(false);
+  const [openAIKey, setOpenAIKey] = useState('');
+  const [pixabayKey, setPixabayKey] = useState('');
+  const [falKey, setFalKey] = useState('');
 
   useEffect(() => {
     setCardCount(cardData.length - 1); // Initialize card count excluding the initial card
   }, [cardData]);
+
+  useEffect(() => {
+    const missing = !getOpenAIKey() || !getPixabayKey() || !getFalKey();
+    setOpenAIKey(getOpenAIKey() || '');
+    setPixabayKey(getPixabayKey() || '');
+    setFalKey(getFalKey() || '');
+    if (missing) {
+      setShowKeyDialog(true);
+    }
+  }, []);
 
   const handleResponse = (responseText) => {
     setResponse(responseText);
@@ -156,10 +170,25 @@ export default function App() {
     }).join('\n\n');
   };
 
+  const openKeyDialog = () => {
+    setOpenAIKey(getOpenAIKey() || '');
+    setPixabayKey(getPixabayKey() || '');
+    setFalKey(getFalKey() || '');
+    setShowKeyDialog(true);
+  };
+
+  const saveKeys = () => {
+    updateApiKeys({ openAIKey, pixabayKey, falKey });
+    setShowKeyDialog(false);
+  };
+
   return (
     <div className="App">
       <button className="reset-button" onClick={() => ReStart()}>
         Neu anfangen
+      </button>
+      <button className="key-button" onClick={openKeyDialog}>
+        API Schlüssel
       </button>
 
       <div className="cards-container ">
@@ -191,6 +220,24 @@ export default function App() {
       </div>
       
       <div className="response-box" dangerouslySetInnerHTML={{ __html: response }} />
+
+      {showKeyDialog && (
+        <div className="key-dialog-overlay">
+          <div className="key-dialog">
+            <h3>API Schlüssel eingeben</h3>
+            <label>OpenAI:</label>
+            <input className="key-input" value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)} />
+            <label>Pixabay:</label>
+            <input className="key-input" value={pixabayKey} onChange={(e) => setPixabayKey(e.target.value)} />
+            <label>FAL:</label>
+            <input className="key-input" value={falKey} onChange={(e) => setFalKey(e.target.value)} />
+            <div className="key-dialog-buttons">
+              <button onClick={saveKeys}>Speichern</button>
+              <button onClick={() => setShowKeyDialog(false)}>Schließen</button>
+            </div>
+          </div>
+        </div>
+      )
     </div>
   );
 }
