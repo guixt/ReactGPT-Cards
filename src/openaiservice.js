@@ -1,18 +1,37 @@
 import axios from 'axios';
 import * as fal from "@fal-ai/serverless-client";
 
-const key = process.env.REACT_APP_API_KEY;
+// Helper functions to retrieve keys from the current session or
+// fall back to the build time environment variables
+export const getOpenAIKey = () =>
+  sessionStorage.getItem('REACT_APP_API_KEY') || process.env.REACT_APP_API_KEY;
 
-const openai = axios.create({
-  baseURL: 'https://api.openai.com/v1',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${key}`,
-  },
-});
+export const getPixabayKey = () =>
+  sessionStorage.getItem('REACT_APP_PIXABAY_KEY') || process.env.REACT_APP_PIXABAY_KEY;
+
+export const getFalKey = () =>
+  sessionStorage.getItem('REACT_APP_FAL_KEY') || process.env.REACT_APP_FAL_KEY;
+
+export const updateApiKeys = ({ openAIKey, pixabayKey, falKey }) => {
+  if (openAIKey) sessionStorage.setItem('REACT_APP_API_KEY', openAIKey);
+  if (pixabayKey) sessionStorage.setItem('REACT_APP_PIXABAY_KEY', pixabayKey);
+  if (falKey) sessionStorage.setItem('REACT_APP_FAL_KEY', falKey);
+};
+
+const createOpenAIClient = () => {
+  const key = getOpenAIKey();
+  return axios.create({
+    baseURL: 'https://api.openai.com/v1',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${key}`,
+    },
+  });
+};
 
 export const getChatResponse = async (messages,functions) => {
     try {
+      const openai = createOpenAIClient();
       const response = await openai.post('/chat/completions', {
         model: 'gpt-4o-mini', // Verwende den korrekten Modellnamen
         messages: messages, // Hier die übergebene Nachrichtenstruktur verwenden
@@ -30,6 +49,7 @@ export const getChatResponse = async (messages,functions) => {
 // Funktion für die Bildgenerierung
 export const generateImage = async (prompt) => {
   try {
+    const openai = createOpenAIClient();
     const response = await openai.post('/images/generations', {
       prompt: prompt, // Prompt für die Bildgenerierung
       model: 'dall-e-2',
@@ -49,12 +69,13 @@ export const generateImage = async (prompt) => {
 
 
 // const PIXABAY_API_KEY = '19848820-f3823119fc2995824f63bb9a2'; // Replace with your Pixabay API key
-const PIXABAY_API_KEY = process.env.REACT_APP_PIXABAY_KEY;
+
 
 
 // Function to search Pixabay for images
 async function searchPixabay(query) {
-    const response = await fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&image_type=photo`);
+    const key = getPixabayKey();
+    const response = await fetch(`https://pixabay.com/api/?key=${key}&q=${encodeURIComponent(query)}&image_type=photo`);
     const data = await response.json();
     if (data.hits && data.hits.length > 0) {
         return data.hits[0].webformatURL; // Return the URL of the first image found
@@ -88,13 +109,12 @@ export async function getPixabayImageAsBase64(query) {
 }
 
 
-const flux_key = process.env.REACT_APP_FAL_KEY;
-
 fal.config({
-  credentials: flux_key
+  credentials: getFalKey()
 });
 // Funktion für die Bildgenerierung und Umwandlung in Base64
 export const generater_flux_image = async (prompt) => {
+  fal.config({ credentials: getFalKey() });
   try {
     const result = await fal.subscribe("fal-ai/flux/schnell", {
       input: {
