@@ -98,8 +98,16 @@ export function createPlaceholderImage() {
     canvas.height = 1;
 
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#cccccc'; // Choose a placeholder color
-    ctx.fillRect(0, 0, 1, 1);
+    if (ctx) {
+        ctx.fillStyle = '#cccccc'; // Choose a placeholder color
+        ctx.fillRect(0, 0, 1, 1);
+    }
 
-    return canvas.toDataURL('image/jpeg').split(',')[1]; // Return only the base64 part
+    if (typeof canvas.toDataURL === 'function') {
+        const data = canvas.toDataURL('image/jpeg');
+        if (data && data.includes(',')) {
+            return data.split(',')[1];
+        }
+    }
+    return '';
 }

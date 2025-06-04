@@ -142,6 +142,19 @@ export default function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const stored = localStorage.getItem('cardState');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setCardData(parsed.cardData || initialCardData);
+        setCardInputs(parsed.cardInputs || {});
+      } catch (e) {
+        console.error('Fehler beim Laden der gespeicherten Karten', e);
+      }
+    }
+  }, []);
+
   const handleResponse = (responseText) => {
     setResponse(responseText);
   };
@@ -182,6 +195,28 @@ export default function App() {
     setShowKeyDialog(false);
   };
 
+  const saveCards = () => {
+    const data = { cardData, cardInputs };
+    localStorage.setItem('cardState', JSON.stringify(data));
+    alert('Karten gespeichert');
+  };
+
+  const loadCards = () => {
+    const stored = localStorage.getItem('cardState');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setCardData(parsed.cardData || initialCardData);
+        setCardInputs(parsed.cardInputs || {});
+        alert('Gespeicherte Karten geladen');
+      } catch (e) {
+        console.error('Fehler beim Laden der Karten', e);
+      }
+    } else {
+      alert('Keine gespeicherten Karten gefunden');
+    }
+  };
+
   return (
     <div className="App">
       <button className="reset-button" onClick={() => ReStart()}>
@@ -189,6 +224,12 @@ export default function App() {
       </button>
       <button className="key-button" onClick={openKeyDialog}>
         API Schlüssel
+      </button>
+      <button className="save-button" onClick={saveCards}>
+        Karten speichern
+      </button>
+      <button className="load-button" onClick={loadCards}>
+        Karten laden
       </button>
 
       <div className="cards-container ">
